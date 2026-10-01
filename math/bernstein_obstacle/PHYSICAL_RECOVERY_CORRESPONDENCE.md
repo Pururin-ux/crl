@@ -8,7 +8,7 @@ This contribution concerns the positive sampling operator in issue [#97](https:/
 - Implementation base for this contribution: `a1d194ddd892f10cf2598541286be39302c051a1`, branch `formal/bernstein-final-review-base`.
 - Lean: `leanprover/lean4:v4.33.0-rc1`; mathlib: `4608056c77c52468b80773e8dcd585ef821c7c5e`.
 - `SimplexRecovery.lean` already defines the positive finite-index sampler and proves its oriented-face identities. `SimplexPartition.lean` and `SimplexAffineReproduction.lean` already prove natural-index partition and first moments. These are upstream results, reused rather than claimed as new.
-- The new work transports those identities to the bounded `MultiIndex` representation actually used by `simplexSamplingRecovery`. It supplies actual physical coordinates, pointwise value and Frechet-derivative estimates, and local `L2` seminorm inequalities for an affine-basis element.
+- The new work transports those identities to the bounded `MultiIndex` representation actually used by `simplexSamplingRecovery`. It supplies actual physical coordinates, pointwise value and Frechet-derivative estimates, classical-gradient `L2` estimates, and integral-based local `H1` membership on an affine-basis element's interior.
 
 ## Primary literature checked
 
@@ -16,7 +16,7 @@ This contribution concerns the positive sampling operator in issue [#97](https:/
 2. [Guermond, local interpolation on affine meshes](https://people.tamu.edu/~guermond/M661_FALL_2025/chap11.pdf), Theorem 11.13 and Remark 11.19: the relevant ingredients are reproduction of the required low-degree polynomial space, reference-operator boundedness, and uniform affine-map shape control. The general approximation statement need not come from a nodal interpolation projector. For positive Bernstein sampling, reproduce `P1`; do not assume reproduction of all `Pr`.
 3. [Hunter, PDE notes](https://math.ucdavis.edu/~hunter/pdes/pde_notes.pdf), Proposition 3.22 and section 3.6: positive-part weak derivatives and mollification justify the density route below. Pointwise truncation is a contraction in `L2`; this does not justify declaring it a contraction in the full `H1` norm. Compact support must remain inside the domain during smoothing.
 4. [Bertot's bibliography](https://www-sop.inria.fr/members/Yves.Bertot/pubs.html) records Bertot–Guilhot–Mahboubi's 2011 formal Bernstein work. This contribution makes no claim to be the first formal treatment of Bernstein polynomials. Its preprint was not accessible through the archive in this check; its technical proofs are not used here.
-5. [DeGiorgi at `4c1b3077d3782b24065184df4ba59501b2e56fc7`](https://github.com/scottnarmstrong/DeGiorgi/tree/4c1b3077d3782b24065184df4ba59501b2e56fc7): source inspection found `MemW1pWitness.weakGrad_ae_eq_zero_on_zeroSet`, positive-part construction, and supported smoothing. That checkout uses Lean `v4.29.0-rc6`; compatibility with this project's pins was **not** established by that inspection. The present patch adds no DeGiorgi dependency.
+5. [DeGiorgi at `4c1b3077d3782b24065184df4ba59501b2e56fc7`](https://github.com/scottnarmstrong/DeGiorgi/tree/4c1b3077d3782b24065184df4ba59501b2e56fc7): source inspection found `MemW1pWitness.weakGrad_ae_eq_zero_on_zeroSet`, positive-part construction, and supported smoothing. Its `HasWeakPartialDeriv.of_contDiff` integration-by-parts proof is adapted in `PhysicalWeakDerivative.lean`, with Apache-2.0 attribution, and the adaptation compiles on this project's pins against the actual `SobolevH01Port` definition. The older checkout uses Lean `v4.29.0-rc6`; the rest of that package has not been compiled or adopted here. The present patch adds no DeGiorgi dependency.
 
 ## Statement correspondence for the new Lean declarations
 
@@ -46,9 +46,15 @@ Let `d,n : Nat`, with `n > 0` whenever lattice samples are used. A `BarycentricP
 | `affineBasisCoordinateConstant`, `affineBasisCoordinateDerivative`, reconstruction and inverse identities | The needed coordinates are constructed from an actual full affine basis | Finite-dimensional real normed space; nondegeneracy is encoded by `AffineBasis`, not a derivative oracle |
 | `norm_fderiv_affineBasisPhysicalSamplingRecovery_error_le_of_shape` | First-order actual physical derivative estimate on an affine-basis element | Explicit per-element bound `h sum_i ||D lambda_i|| <= C`; a mesh-uniform constant remains to be supplied |
 | Physical-element compactness, closedness, measurability and finite-measure lemmas | The actual element is its finite convex hull and has finite measure on measures finite on compacts | Ordinary Borel structure gives measurability; no asserted volume formula |
-| The two `eLpNorm` error estimates | Local value error at most `mu(T)^(1/2) M h^2`, derivative error at most `mu(T)^(1/2) n M C h` | Actual `L2` seminorm, with the measure and element measurability explicit; no assembled weak-gradient or `H1` membership assertion |
+| The two original `eLpNorm` error estimates | Local value error at most `mu(T)^(1/2) M h^2`, derivative error at most `mu(T)^(1/2) n M C h` | Actual `L2` seminorm, with the measure and element measurability explicit |
+| `norm_gradient_sub_eq_norm_fderiv_sub`, its `eLpNorm` version and the physical gradient-error estimates | Riesz identification gives exact equality of the classical gradient and Frechet-derivative difference norms, and the same local gradient bounds | Complete real inner-product space; actual Mathlib gradient, not a supplied gradient oracle |
+| `contDiff_physicalPolynomial_eval`, affine polynomial/field/sampler specializations | Actual physical recovery polynomial is globally smooth | Every order `WithTop ENat`; input sampling values require no smoothness |
+| `hasWeakPartialDeriv_of_contDiff`, `gradient_component_eq_fderiv_apply` | Integration by parts gives the project's integral-based weak partial derivative; the actual gradient component equals `Df(e_i)` | Global `C1` function, compactly supported smooth tests in an open physical domain; adapted proof attribution above |
+| `hasWeakGrad_affineBasisPhysicalSamplingRecovery` | The physical recovery polynomial's classical gradient is its actual integral-based weak gradient | Any open physical domain; no assembled piecewise function is asserted |
+| `memLp_continuous_restrict_compact`, `memH1_of_contDiff_of_subset_compact` | Actual scalar and derivative `L2` integrability from compact localization, followed by integral-based `H1` membership | Open domain contained in a compact physical set; no approximation witness assumed |
+| `memH1_affineBasisPhysicalSamplingRecovery_interior` | The original positive recovery polynomial belongs to the project's physical `H1` space on the actual simplex interior | Genuine affine basis; no global `H01` or mesh assembly claim |
 
-Degenerate vertex families remain allowed by the initial `C0` results. The later affine-basis specialization provides genuine nondegenerate physical coordinates. The chain rule identifies formal partials with actual **Frechet** derivatives; it does not identify the assembled weak gradient. The local seminorm inequalities do not by themselves assert `MemH1`, `MemH01`, trace compatibility, or a global conforming finite-element space.
+Degenerate vertex families remain allowed by the initial `C0` results. The later affine-basis specialization provides genuine nondegenerate physical coordinates. The chain rule identifies formal partials with actual **Frechet** derivatives, and the added integration-by-parts bridge identifies the local classical gradient with an actual integral weak gradient. Compact localization proves `MemH1` on the simplex interior. None of these statements asserts the weak gradient of an assembled mesh function, `MemH01`, trace compatibility, or a global conforming finite-element space.
 
 ## Local gradient estimate and the remaining Sobolev transfer
 
@@ -127,7 +133,7 @@ The weak Mosco condition follows from `K_h^B subset K`, where the physical nonne
 ## Remaining formal obligations
 
 1. Instantiate a conforming physical mesh family and obtain one uniform bound for the actual coordinate norms from its stated shape-regularity assumptions. The affine-basis coordinates themselves are now constructed.
-2. Assemble actual weak gradients and `H_0^1` membership from shared faces and boundary trace; identify the local derivative norm with the physical Sobolev gradient norm and perform the mesh-wide summation. The local physical `L2` seminorm inequalities are now proved.
+2. Assemble actual weak gradients and `H_0^1` membership from shared faces and boundary trace, and perform the mesh-wide summation. The local derivative/gradient norm equality, actual integral weak derivative, local `H1` membership and physical `L2` estimates are now proved.
 3. A concrete nonnegative smooth density construction and the ambient physical Hilbert-space bridge.
 4. Instantiation of moving Mosco and minimizer theorems with that construction.
 5. The distinct sharp-rate branch: local-size risky sets, one-ring grading, uniform broken regularity, tube measure, coefficient clipping and physical-boundary compatibility.
@@ -138,10 +144,11 @@ The weak Mosco condition follows from `K_h^B subset K`, where the physical nonne
 From `math/bernstein_obstacle/lean`, using the pinned toolchain:
 
 ```text
-lake build BernsteinObstacle.PhysicalSimplexLpEstimate
+lake build BernsteinObstacle.PhysicalLocalSobolev
+lake build BernsteinObstacle.PhysicalSimplexGradient
 lake build BernsteinObstacle.PhysicalSimplexGeometry
 lake build BernsteinObstacle.SamplingQuadraticGuard
-lake env lean PhysicalGradientAudit.lean
+lake env lean PhysicalSobolevAudit.lean
 ```
 
 The audit prints every new theorem's axioms. Only `propext`, `Classical.choice`, and `Quot.sound` are permitted here; neither `sorryAx` nor project-specific axioms are acceptable. A saved transcript documents an actual run, not the unformalized arguments above.
@@ -149,3 +156,5 @@ The audit prints every new theorem's axioms. Only `propext`, `Classical.choice`,
 The initial focused run on 2026-10-02 Minsk time audited the first 27 new theorems with exit 0 and no axioms outside that whitelist; its retained transcript is [PHYSICAL_RECOVERY_FOCUSED_AUDIT_2026-10-02.txt](audit_packets/PHYSICAL_RECOVERY_FOCUSED_AUDIT_2026-10-02.txt). The full upstream library was not rerun by that focused check.
 
 The expanded focused run on the same Minsk date compiled the physical derivative, coordinate, geometry, and `L2` leaves and audited all 59 new theorems with exit 0 and no axioms outside that whitelist. Its actual output and SHA256 hashes of the seven additional source modules are in [PHYSICAL_GRADIENT_FOCUSED_AUDIT_2026-10-02.txt](audit_packets/PHYSICAL_GRADIENT_FOCUSED_AUDIT_2026-10-02.txt). This is a scoped check, not a claim that the full upstream library or the unformalized Sobolev arguments passed.
+
+The subsequent focused run on the same Minsk date compiled the classical-gradient and local-Sobolev leaves with their dependencies and audited all 73 new declarations with exit 0 and no axioms outside that whitelist. Its actual output and SHA256 hashes of the four additional modules are in [PHYSICAL_SOBOLEV_FOCUSED_AUDIT_2026-10-02.txt](audit_packets/PHYSICAL_SOBOLEV_FOCUSED_AUDIT_2026-10-02.txt). This verifies the local weak-derivative and `H1` bridge; it does not verify mesh assembly, positive smooth density, Mosco convergence, the sharp clipping rate, or the full upstream library.

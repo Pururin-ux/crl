@@ -1,0 +1,44 @@
+Physical recovery focused audit
+Verified at UTC: 2026-10-01 21:22:54
+Implementation base: a1d194ddd892f10cf2598541286be39302c051a1
+Lean (version 4.33.0-rc1, x86_64-w64-windows-gnu, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)
+Mathlib: 4608056c77c52468b80773e8dcd585ef821c7c5e
+PhysicalSimplexCalculus: compiled successfully
+SamplingQuadraticGuard: compiled successfully
+Command: lake env lean PhysicalRecoveryAudit.lean
+Audit exit: 0
+Audited declarations: 27
+Unapproved axioms: 0
+Full upstream library and physical H1/Mosco/sharp-rate package: not certified by this focused audit
+
+'BernsteinObstacle.simplexBasis_eq_simplexBasisNat' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexBasis_sum_eq_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexField_const' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexField_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexField_upper_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_const' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_mem_Icc' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_abs_sub_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_abs_error_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSimplexPoint_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_physicalSimplexPoint_sub_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSimplexPoint_diameter_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_const' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexMultiIndex_sum_eq_piAntidiag' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexBasis_first_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_coordinate' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_affine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_affine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_taylor_error_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.convex_range_physicalSimplexPoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_taylor_remainder_le_of_lipschitz_fderiv' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_abs_error_le_of_lipschitz_fderiv' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_abs_error_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.curve_square_sampling_error' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.curve_square_sampling_midpoint_error' depends on axioms: [propext, Classical.choice, Quot.sound]

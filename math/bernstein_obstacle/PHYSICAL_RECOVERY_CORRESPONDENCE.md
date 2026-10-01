@@ -8,7 +8,7 @@ This contribution concerns the positive sampling operator in issue [#97](https:/
 - Implementation base for this contribution: `a1d194ddd892f10cf2598541286be39302c051a1`, branch `formal/bernstein-final-review-base`.
 - Lean: `leanprover/lean4:v4.33.0-rc1`; mathlib: `4608056c77c52468b80773e8dcd585ef821c7c5e`.
 - `SimplexRecovery.lean` already defines the positive finite-index sampler and proves its oriented-face identities. `SimplexPartition.lean` and `SimplexAffineReproduction.lean` already prove natural-index partition and first moments. These are upstream results, reused rather than claimed as new.
-- The new work transports those identities to the bounded `MultiIndex` representation actually used by `simplexSamplingRecovery`, and supplies an actual map into a normed physical space, diameter bounds, and local pointwise estimates.
+- The new work transports those identities to the bounded `MultiIndex` representation actually used by `simplexSamplingRecovery`. It supplies actual physical coordinates, pointwise value and Frechet-derivative estimates, and local `L2` seminorm inequalities for an affine-basis element.
 
 ## Primary literature checked
 
@@ -37,12 +37,22 @@ Let `d,n : Nat`, with `n > 0` whenever lattice samples are used. A `BarycentricP
 | `norm_taylor_remainder_le_of_lipschitz_fderiv` | Quadratic remainder from actual Fréchet derivatives | Convex set, differentiability at its points, derivative Lipschitz constant `M>=0` |
 | `physicalSamplingRecovery_abs_error_le_of_lipschitz_fderiv` | Pointwise recovery error at most `M h^2` | Actual derivative hypotheses on the physical simplex; constant is `M`, not `M/2` |
 | `curve_square_sampling_error`, `curve_square_sampling_midpoint_error` | Exact quadratic error and its nonzero midpoint value | Univariate regression guard; reuses Mathlib moments |
+| `hasFDerivAt_physicalPolynomial_eval`, `fderiv_physicalPolynomial_eval`, affine specialization | Actual chain rule for evaluation of multivariate polynomials | Arbitrary differentiable finite coordinate family; formal partials are proved to yield the Frechet derivative |
+| `eval_simplexBasisPolynomial`, partial nonnegativity and complete partial sum | The polynomial is the original Bernstein basis; each formal partial is nonnegative and its complete mass is `n` | All barycentric points, including faces; partial mass includes `n=0` |
+| `sum_norm_fderiv_affineSimplexBasis_le`, finite-index counterpart | Sum of norms of actual physical basis derivatives is at most `n sum_i ||ell_i||` | Actual affine coordinate maps; no shape bound assumed for this identity |
+| `affineSimplexField_eq_simplexField`, actual field derivative and coefficient-difference bound | The original bounded-index field as a function on physical space; derivative error at most `delta n sum_i ||ell_i||` | Uniform coefficient differences; coordinate values at the evaluation point must be barycentric |
+| Complete coordinate-hyperplane partition/first moment and `affineSimplexField_affineCoefficients` | Affine reproduction outside as well as inside the simplex | Real coordinates summing to one; no nonnegativity needed, so the identity can be differentiated in ambient space |
+| `affinePhysicalSamplingRecovery_eq`, affine reproduction and derivative-error lemmas | Actual original sampler derivative error at most `M h^2 n sum_i ||ell_i||`, and at most `n M C h` under shape scaling | Genuine reconstruction of all physical points; differentiable `f` with `M`-Lipschitz derivative on the physical element |
+| `affineBasisCoordinateConstant`, `affineBasisCoordinateDerivative`, reconstruction and inverse identities | The needed coordinates are constructed from an actual full affine basis | Finite-dimensional real normed space; nondegeneracy is encoded by `AffineBasis`, not a derivative oracle |
+| `norm_fderiv_affineBasisPhysicalSamplingRecovery_error_le_of_shape` | First-order actual physical derivative estimate on an affine-basis element | Explicit per-element bound `h sum_i ||D lambda_i|| <= C`; a mesh-uniform constant remains to be supplied |
+| Physical-element compactness, closedness, measurability and finite-measure lemmas | The actual element is its finite convex hull and has finite measure on measures finite on compacts | Ordinary Borel structure gives measurability; no asserted volume formula |
+| The two `eLpNorm` error estimates | Local value error at most `mu(T)^(1/2) M h^2`, derivative error at most `mu(T)^(1/2) n M C h` | Actual `L2` seminorm, with the measure and element measurability explicit; no assembled weak-gradient or `H1` membership assertion |
 
-Degenerate vertex families are allowed by these `C0` results. They do **not** supply valid physical finite elements, inverse affine maps, volumes, or `H1` derivative estimates. Those require additional geometry. No theorem here identifies a formal polynomial partial derivative with a physical weak derivative.
+Degenerate vertex families remain allowed by the initial `C0` results. The later affine-basis specialization provides genuine nondegenerate physical coordinates. The chain rule identifies formal partials with actual **Frechet** derivatives; it does not identify the assembled weak gradient. The local seminorm inequalities do not by themselves assert `MemH1`, `MemH01`, trace compatibility, or a global conforming finite-element space.
 
-## Analytical derivation of the remaining local gradient estimate
+## Local gradient estimate and the remaining Sobolev transfer
 
-The following is a mathematical derivation, **not yet a Lean theorem**.
+The local derivative estimate is now proved in Lean with actual `C1,1` hypotheses and the safe constant `M` in the quadratic remainder. The derivation below explains the sharper analytical `C2` constant `M/2`; this factor and the mesh-wide Sobolev transfer are not claimed as formal results.
 
 Take a nondegenerate physical simplex `T` with diameter `h_T`, barycentric functions `lambda_i`, and fixed degree `r>=1`. Write
 
@@ -69,6 +79,7 @@ For the derivative, the factorial basis formula gives, with terms omitted when `
 
 Reindexing each complete degree-`r-1` sum and using its nonnegative partition yields
 `sum_alpha ||grad B_alpha^r(x)|| <= r sum_i ||grad lambda_i||`.
+The Lean proof establishes this bound without needing the degree-lowering reindexing: it differentiates the upstream multinomial polynomial expansion, proves nonnegativity of the evaluated formal partials, and obtains complete partial mass exactly `r`. The actual polynomial chain rule then gives the same total operator-norm bound in physical coordinates.
 Since `Dw(x)=Dq_x(x)`, differentiating the recovered **fixed** remainder gives
 
 \[
@@ -115,24 +126,26 @@ The weak Mosco condition follows from `K_h^B subset K`, where the physical nonne
 
 ## Remaining formal obligations
 
-1. A nondegenerate physical simplex/inverse coordinate construction with a uniform shape bound.
-2. Actual physical derivatives of the finite Bernstein basis, including the degree-lowering identity and its complete-index sum.
-3. Element/global integrals and assembled `H_0^1` membership from shared faces and boundary trace.
-4. A concrete nonnegative smooth density construction and the ambient physical Hilbert-space bridge.
-5. Instantiation of moving Mosco and minimizer theorems with that construction.
-6. The distinct sharp-rate branch: local-size risky sets, one-ring grading, uniform broken regularity, tube measure, coefficient clipping and physical-boundary compatibility.
-7. Independent qualified human faithfulness review. Kernel checking alone does not provide it.
+1. Instantiate a conforming physical mesh family and obtain one uniform bound for the actual coordinate norms from its stated shape-regularity assumptions. The affine-basis coordinates themselves are now constructed.
+2. Assemble actual weak gradients and `H_0^1` membership from shared faces and boundary trace; identify the local derivative norm with the physical Sobolev gradient norm and perform the mesh-wide summation. The local physical `L2` seminorm inequalities are now proved.
+3. A concrete nonnegative smooth density construction and the ambient physical Hilbert-space bridge.
+4. Instantiation of moving Mosco and minimizer theorems with that construction.
+5. The distinct sharp-rate branch: local-size risky sets, one-ring grading, uniform broken regularity, tube measure, coefficient clipping and physical-boundary compatibility.
+6. Independent qualified human faithfulness review. Kernel checking alone does not provide it.
 
 ## Reproduction
 
 From `math/bernstein_obstacle/lean`, using the pinned toolchain:
 
 ```text
-lake build BernsteinObstacle.PhysicalSimplexCalculus
+lake build BernsteinObstacle.PhysicalSimplexLpEstimate
+lake build BernsteinObstacle.PhysicalSimplexGeometry
 lake build BernsteinObstacle.SamplingQuadraticGuard
-lake env lean PhysicalRecoveryAudit.lean
+lake env lean PhysicalGradientAudit.lean
 ```
 
 The audit prints every new theorem's axioms. Only `propext`, `Classical.choice`, and `Quot.sound` are permitted here; neither `sorryAx` nor project-specific axioms are acceptable. A saved transcript documents an actual run, not the unformalized arguments above.
 
-The focused run on 2026-10-02 Minsk time compiled both leaf targets and audited all 27 new theorems with exit 0 and no axioms outside that whitelist. The transcript is [PHYSICAL_RECOVERY_FOCUSED_AUDIT_2026-10-02.txt](audit_packets/PHYSICAL_RECOVERY_FOCUSED_AUDIT_2026-10-02.txt). The full upstream library was not rerun by this focused check.
+The initial focused run on 2026-10-02 Minsk time audited the first 27 new theorems with exit 0 and no axioms outside that whitelist; its retained transcript is [PHYSICAL_RECOVERY_FOCUSED_AUDIT_2026-10-02.txt](audit_packets/PHYSICAL_RECOVERY_FOCUSED_AUDIT_2026-10-02.txt). The full upstream library was not rerun by that focused check.
+
+The expanded focused run on the same Minsk date compiled the physical derivative, coordinate, geometry, and `L2` leaves and audited all 59 new theorems with exit 0 and no axioms outside that whitelist. Its actual output and SHA256 hashes of the seven additional source modules are in [PHYSICAL_GRADIENT_FOCUSED_AUDIT_2026-10-02.txt](audit_packets/PHYSICAL_GRADIENT_FOCUSED_AUDIT_2026-10-02.txt). This is a scoped check, not a claim that the full upstream library or the unformalized Sobolev arguments passed.

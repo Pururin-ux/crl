@@ -64,20 +64,20 @@ jobs:
             cat lean-toolchain
             lake env lean --version
             git -C .lake/packages/mathlib rev-parse HEAD
-            sha256sum lakefile.toml lake-manifest.json PhysicalBernsteinExistenceAudit.lean
+            sha256sum lakefile.toml lake-manifest.json PhysicalQuadraticAudit.lean
           } | tee physical-versions.log
           test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 4608056c77c52468b80773e8dcd585ef821c7c5e
 
-      - name: Build final existence and sampling-guard leaves
+      - name: Build final quadratic and sampling-guard leaves
         run: |
           set -euo pipefail
-          lake build BernsteinObstacle.PhysicalBernsteinExistence BernsteinObstacle.SamplingQuadraticGuard 2>&1 | tee physical-existence-build.log
+          lake build BernsteinObstacle.PhysicalQuadraticConvergence BernsteinObstacle.SamplingQuadraticGuard 2>&1 | tee physical-existence-build.log
 
       - name: Audit all added declarations and enforce whitelist
         run: |
           set -euo pipefail
-          lake env lean PhysicalBernsteinExistenceAudit.lean 2>&1 | tee physical-existence-axioms.log
-          python3 ../verification/verify_lean_axioms.py PhysicalBernsteinExistenceAudit.lean physical-existence-axioms.log --expected-count 361 2>&1 | tee physical-existence-verification.log
+          lake env lean PhysicalQuadraticAudit.lean 2>&1 | tee physical-existence-axioms.log
+          python3 ../verification/verify_lean_axioms.py PhysicalQuadraticAudit.lean physical-existence-axioms.log --expected-count 374 2>&1 | tee physical-existence-verification.log
 
       - name: Preserve complete verification logs
         if: always()

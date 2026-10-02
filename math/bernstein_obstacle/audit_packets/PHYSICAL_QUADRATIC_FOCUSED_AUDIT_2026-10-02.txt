@@ -1,0 +1,542 @@
+Focused physical general-energy audit
+Captured UTC: 2026-10-02T05:31:31.773294+00:00
+Parent source commit: 1225a50a3e1d7239998a831ad8297f75374f137e
+Lean: v4.33.0-rc1; compiler commit62eed1db4d67327ec8120be05f1a1b0847d74561
+Mathlib: 4608056c77c52468b80773e8dcd585ef821c7c5e
+Build: PhysicalQuadraticConvergence and dependencies;3651 jobs;exit0
+Audit: PhysicalQuadraticAudit.lean;374 unique requests/reports;Lean exit0;strict verifier exit0
+Allowed axioms: propext, Classical.choice, Quot.sound
+Scope: general symmetric continuous coercive energy on actual H01, homogeneous obstacle; continuous/discrete unique minima and strong H01/energy convergence on explicit supplied physical meshes.
+Open: concrete conventional family/assembled DOFs, moving-obstacle extensions, sharp clipping rate, independent human review, sponsor funding/payment; no full-upstream-build claim.
+math/bernstein_obstacle/lean/BernsteinObstacle/PhysicalQuadraticConvergence.lean SHA256 19a13abf9d0fff7192579372f68e3a90218270e3f4f4f7dfd1352d35461537e3
+math/bernstein_obstacle/lean/PhysicalQuadraticAudit.lean SHA256 5d43f17e2f6aec17adc39e82d3f66332286d9e5edcc33c1978c233a813daa8ef
+Original console bytes: 43268
+Original console SHA256: 9a8825eade73a1c314d4746f26edb1ed164350b81ad18e00acd26fc32e260ce5
+
+Original Lean console follows, unmodified:
+'BernsteinObstacle.simplexBasis_eq_simplexBasisNat' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexBasis_sum_eq_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexField_const' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexField_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexField_upper_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_const' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_mem_Icc' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_abs_sub_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_abs_error_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSimplexPoint_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_physicalSimplexPoint_sub_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSimplexPoint_diameter_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_const' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexMultiIndex_sum_eq_piAntidiag' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexBasis_first_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_coordinate' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_affine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_affine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_taylor_error_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.convex_range_physicalSimplexPoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_taylor_remainder_le_of_lipschitz_fderiv' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_abs_error_le_of_lipschitz_fderiv' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_abs_error_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.curve_square_sampling_error' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.curve_square_sampling_midpoint_error' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.hasFDerivAt_physicalPolynomial_eval' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.fderiv_physicalPolynomial_eval' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.hasFDerivAt_affinePhysicalPolynomial' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.eval_simplexBasisPolynomial' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.eval_pderiv_simplexBasisPolynomial_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.sum_eval_pderiv_simplexBasisPolynomial' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.sum_norm_fderiv_affineSimplexBasis_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.affineSimplexField_eq_simplexField' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.hasFDerivAt_affineSimplexField' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.fderiv_affineSimplexField' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.sum_norm_fderiv_affineSimplexBasis_multiIndex_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.norm_fderiv_affineSimplexField_sub_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.sum_eval_simplexBasisPolynomial' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.sum_firstMoment_eval_simplexBasisPolynomial' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.affineSimplexField_affineCoefficients' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.affinePhysicalSamplingRecovery_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.affinePhysicalSamplingRecovery_affine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_fderiv_affinePhysicalSamplingRecovery_error_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.norm_fderiv_affinePhysicalSamplingRecovery_error_le_of_shape' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.affineBasisCoordinate_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.affineBasisCoordinate_sum_eq_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.affineBasisCoordinate_reconstruct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.affineBasisCoordinate_physicalSimplexPoint' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.affineBasisPhysicalSamplingRecovery_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_fderiv_affineBasisPhysicalSamplingRecovery_error_le_of_shape' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.range_physicalSimplexPoint_affineBasis' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.isCompact_range_physicalSimplexPoint_affineBasis' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.isClosed_range_physicalSimplexPoint_affineBasis' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.measurableSet_range_physicalSimplexPoint_affineBasis' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.measure_range_physicalSimplexPoint_affineBasis_lt_top' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.eLpNorm_affineBasisPhysicalSamplingRecovery_error_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.eLpNorm_fderiv_affineBasisPhysicalSamplingRecovery_error_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.norm_gradient_sub_eq_norm_fderiv_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.eLpNorm_gradient_sub_eq_eLpNorm_fderiv_sub' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.norm_gradient_affineBasisPhysicalSamplingRecovery_error_le_of_shape' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.eLpNorm_gradient_affineBasisPhysicalSamplingRecovery_error_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.contDiff_physicalPolynomial_eval' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.contDiff_affinePhysicalPolynomial' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.contDiff_affineSimplexField' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.contDiff_affineBasisPhysicalSamplingRecovery' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.hasWeakPartialDeriv_of_contDiff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.gradient_component_eq_fderiv_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.hasWeakGrad_affineBasisPhysicalSamplingRecovery' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.memLp_continuous_restrict_compact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.memH1_of_contDiff_of_subset_compact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.memH1_affineBasisPhysicalSamplingRecovery_interior' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.lastFaceMultiIndex_indexOfZero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexField_lastFace_restrict' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexField_permutedPoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexField_orientedLastFace_restrict' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.simplexSamplingRecovery_orientedLastFace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSimplexPoint_permutedPoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSimplexPoint_lastFace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSimplexPoint_orientedLastFace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_orientedLastFace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSimplexPoint_subface' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_subface' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.affineBasisPhysicalSamplingRecovery_subface' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.affineBasisPhysicalSamplingRecovery_sharedSubface' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.affineBasisPhysicalSamplingRecovery_zero_subface' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalMeshRecovery_eq_on_element' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalMeshRecovery_zero_of_not_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalMeshRecovery_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.isCompact_physicalMeshSet' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.continuousOn_physicalMeshRecovery' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalMeshRecovery_zero_subface' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.continuous_physicalMeshRecovery_of_zero_frontier' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.tsupport_physicalMeshRecovery_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.hasCompactSupport_physicalMeshRecovery' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalMeshRecovery_zero_frontier' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.continuous_physicalMeshRecovery' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.hasWeakPartialDeriv_congr_ae' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.memH1_congr_ae' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.eventuallyEq_physicalMeshRecovery_on_interior' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.fderiv_physicalMeshRecovery_on_interior' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.gradient_physicalMeshRecovery_on_interior' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.memH1_physicalMeshRecovery_on_element_interior' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.hasWeakGrad_physicalMeshRecovery_on_element_interior' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.memLp_physicalMeshRecovery' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.lipschitzWith_of_local_norm_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.local_norm_bound_of_finite_closed_cover' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.lipschitzWith_of_finite_closed_cover' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.lipschitzWith_physicalMeshRecovery_of_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.exists_lipschitzWith_physicalMeshRecovery' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.shrinkingDifferenceStep_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_shrinkingDifferenceStep' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_physicalDifferenceQuotient_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_physicalDifferenceQuotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_integral_physicalDifferenceQuotient_mul' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.exists_lipschitzWith_of_contDiff_hasCompactSupport' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.memLp_fderiv_apply_of_lipschitz_hasCompactSupport' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.integral_physicalDifferenceQuotient_mul' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.integral_fderiv_mul_of_lipschitz_hasCompactSupport' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.hasWeakPartialDeriv_of_lipschitz_hasCompactSupport' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.hasWeakGrad_of_lipschitz_hasCompactSupport' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.memH1_of_lipschitz_hasCompactSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.hasWeakGrad_physicalMeshRecovery' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.memH1_physicalMeshRecovery' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalMeshH1Witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSamplingRecovery_nezero_exists_sample' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.support_physicalMeshRecovery_subset_cthickening' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.tsupport_physicalMeshRecovery_subset_cthickening' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.exists_radius_physicalMeshRecovery_support_subset' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalShrinkingBump' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalShrinkingBump_rOut_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_physicalShrinkingBump_rOut' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalMollification' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tsupport_normedBumpConvolution_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tsupport_physicalMollification_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_normedBumpConvolution_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.contDiff_physicalMollification' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.hasCompactSupport_physicalMollification' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_eLpNorm_physicalMollification_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.convolution_fderiv_eq_convolution_weakPartial' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.fderiv_convolution_apply_eq_convolution_weakPartial' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.fderiv_physicalMollification_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.lipschitzH1Witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalMollification_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_eLpNorm_physicalMollification_function_error' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.tendsto_eLpNorm_physicalMollification_gradient_error' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.memH01_of_lipschitz_hasCompactSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.nonnegativeH01Approximation_of_lipschitz_hasCompactSupport' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.memH01_physicalMeshRecovery' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.exists_radius_memH01_physicalMeshRecovery' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalMeshNonnegativeH01Approximation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.zero_frontier_of_tsupport_subset_interior' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.eventually_memH01_physicalMeshRecovery' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.volume_frontier_physicalSimplex' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.ae_mem_physicalElement_interior' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.eLpNorm_physicalMeshRecovery_error_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.eLpNorm_gradient_physicalMeshRecovery_error_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.tendsto_physicalMeshRecovery_H1_error' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.integral_mul_eq_L2_inner' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_integral_mul_of_L2_convergence' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.hasWeakPartialDeriv_of_L2_limit' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.ae_eq_of_hasWeakPartialDeriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.PhysicalSobolevTest' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.PhysicalH1Ambient' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalTestLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalTestDerivativeLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalWeakForm' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.integral_mul_Lp_eq_inner' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalWeakForm_eq_integrals' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1Submodule' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.mem_physicalH1Submodule_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.isClosed_physicalH1Submodule' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1CompleteSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1_norm_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1_function_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.memH1_of_mem_physicalH1Submodule' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1AmbientOfWitness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1AmbientOfWitness_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1OfWitness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1OfWitness_independent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalMeshH1Element' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSobolevTestAdd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSobolevTestSmul' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1SmoothSubmodule' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH01Submodule' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.isClosed_physicalH01Submodule' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH01CompleteSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_physicalH1_iff_components' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalTestH1Witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1OfTest' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1OfTest_mem_smooth' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1SmoothSubmodule_eq_range' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_physicalH1OfTest_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1OfWitness_mem_H01_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1Witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH1OfWitness_canonical' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.memH01_of_mem_physicalH01Submodule' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH01OfWitness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH01OfWitness_independent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH01_norm_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalMeshH01Element' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH01FunctionLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalNonnegativeH01Cone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.mem_physicalNonnegativeH01Cone_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.isClosed_physicalNonnegativeH01Cone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.convex_physicalNonnegativeH01Cone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.weaklySequentiallyClosed_physicalNonnegativeH01Cone' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalH01OfWitness_mem_nonnegative_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalMeshH01Element_mem_nonnegative' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.exists_lipschitzWith_of_contDiff_compact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_physicalH1OfWitness_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_physicalH01OfWitness_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_eLpNorm_component_of_vector' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_eLpNorm_restrict_of_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.exists_lipschitzWith_fderiv_physicalTest' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalTest_memH01' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH01OfTest' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_physicalMeshH1Element' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_physicalMeshH01Element' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSupportedMeshH01Recovery' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.eventually_tsupport_physicalMeshRecovery_subset' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.tendsto_physicalSupportedMeshH01Recovery' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSupportedMeshH01Recovery_mem_nonnegative' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.exists_subseq_ae_of_L2_convergence' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_eLpNorm_of_ae_tendsto_of_L2_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.memLp_mul_of_ae_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.eLpNorm_mul_le_of_ae_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_eLpNorm_mul_of_ae_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.memLp_of_lipschitz_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_eLpNorm_comp_lipschitz' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_eLpNorm_add_of_limits' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.lipschitzWith_of_contDiff_deriv_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.hasWeakPartialDeriv_comp_contDiff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.hasWeakPartialDeriv_comp_of_memH01' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalC1CompositionWitness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSmoothingScale' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalSmoothingScale_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_physicalSmoothingScale' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalZeroProbe' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalZeroProbe_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.contDiff_physicalZeroProbe' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.deriv_physicalZeroProbe' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.deriv_physicalZeroProbe_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_deriv_physicalZeroProbe_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.lipschitzWith_physicalZeroProbe' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_physicalZeroProbe_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_physicalZeroProbe_le_scale' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_physicalZeroProbe' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_deriv_physicalZeroProbe' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalZeroLevelComponent_memLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.weakGrad_component_zero_of_memH01' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.deriv_smoothTransition_of_neg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.deriv_smoothTransition_of_one_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.exists_bound_weighted_deriv_smoothTransition' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalPositiveRegularizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalPositiveRegularizer_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.contDiff_physicalPositiveRegularizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalPositiveRegularizer_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_physicalPositiveRegularizer_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalPositiveRegularizer_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.deriv_physicalPositiveRegularizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.exists_uniform_bound_deriv_physicalPositiveRegularizer' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.deriv_physicalPositiveRegularizer_eq_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_eLpNorm_comp_uniform_lipschitz' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.nonempty_nonnegativeH01ApproximationWitness_of_memH01' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalNonnegativeH01ApproximationWitness' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.exists_positiveTest_strong_approximation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH01OfTest_mem_nonnegative' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalBernsteinField' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalBernsteinField_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalBernsteinH01Cone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.zero_mem_physicalBernsteinH01Cone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalBernsteinH01Cone_subset_nonnegative' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalMeshH01Element_mem_coefficientCone' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalSupportedMeshH01Recovery_mem_coefficientCone' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.exists_strong_diagonal_of_row_limits' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.mosco_physicalBernsteinH01Cone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_affine_derivative_le_of_inscribed_ball' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.affineBasisCoordinate_mem_Icc' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physical_coordinate_shape_of_inscribed_ball' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.mosco_physicalBernsteinH01Cone_of_inscribed_balls' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.norm_toLp_mul_of_ae_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.poincare_physicalTestLp_of_coordinate_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.poincare_physicalH01_of_coordinate_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalBernsteinField_linear_coefficients' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.convex_physicalBernsteinH01Cone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.zero_mem_physicalNonnegativeH01Cone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.exists_coordinate_bound_of_compact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.exists_coordinate_bound_of_physicalMeshSet' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalH01RealNormedSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.finiteComponentInnerBilin' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.affine_step_eq_combo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalH01Component' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletBilin' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletBilin_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletBilin_symmetric' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletBilin_self' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletBilin_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletBilin_eq_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletBilin_coercivity_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.isCoercive_physicalDirichletBilin' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletEnergy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.IsPhysicalDirichletVISolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.IsPhysicalDirichletMinimizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletEnergy_difference' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletVI_half_error_le_energy_gap' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalDirichletVI_is_minimizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletMinimizer_is_VI' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletMinimizer_iff_VI' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletVI_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.bilinContinuityConstant' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.bilinContinuityConstant_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.bilinContinuityConstant_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.linear_load_upper_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.linear_load_norm_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletContinuityConstant' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletVI_norm_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalDirichletVI_inner_error_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_physicalDirichletVI_of_inner_recovery' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalDirichletVI_convergence_of_inner_mosco' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.tendsto_physicalDirichletMinimizers_of_inner_mosco' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.tendsto_physicalBernsteinMinimizers_of_inscribed_balls' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalBernsteinMinimizer_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.continuous_quadratic_bilin_energy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalL2Load' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalL2Load_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalL2Load_eq_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalL2DirichletEnergy_eq_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.continuous_physicalDirichletEnergy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.tendsto_physicalDirichletEnergy_of_strong' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.coerciveQuadraticEnergy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.coerciveQuadraticEnergy_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.coerciveQuadraticEnergy_midpoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.exists_coerciveQuadraticEnergy_minimizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.exists_physicalDirichletMinimizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.existsUnique_physicalNonnegativeDirichletMinimizer' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.positiveFiniteLpCone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.norm_le_of_nonnegative_Lp_order' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.positiveFiniteLp_component_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.isClosed_positiveFiniteLpCone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalLpIndicator' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalLpIndicator_coe' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalLpIndicator_add' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalLpIndicator_smul' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalLpIndicator_norm_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalLpIndicatorCLM' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalLpIndicatorCLM_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.memLp_physicalCellField' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalCellFieldLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalCellFieldLp_coe' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalCellCoefficientMap' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalCellBasisLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalCellFieldLp_eq_sum_basis' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalCellBasisLp_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalCell_indicator_eq_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.mem_physicalBernsteinH01Cone_iff_cell_cones' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.isClosed_physicalBernsteinH01Cone' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.existsUnique_physicalBernsteinDirichletMinimizer' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.existsUnique_physicalNonnegativeDirichletMinimizer_of_compact' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.exists_convergent_physicalBernsteinMinimizers_of_inscribed_balls' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.inverse_bound_of_coercive_bilin' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.IsCoerciveQuadraticMinimizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.coerciveQuadraticMinimizer_norm_sq_le_energy_gap' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.coerciveQuadraticMinimizer_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.existsUnique_coerciveQuadraticEnergy_minimizer' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.tendsto_coerciveQuadraticMinimizers_of_inner_recovery' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.physicalQuadraticEnergy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.IsPhysicalQuadraticMinimizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.physicalQuadraticEnergy_dirichlet' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.isPhysicalQuadraticMinimizer_dirichlet' depends on axioms: [propext, Classical.choice, Quot.sound]
+'BernsteinObstacle.existsUnique_physicalBernsteinQuadraticMinimizer' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.existsUnique_physicalNonnegativeQuadraticMinimizer' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'BernsteinObstacle.exists_convergent_physicalBernsteinQuadraticMinimizers_of_inscribed_balls' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

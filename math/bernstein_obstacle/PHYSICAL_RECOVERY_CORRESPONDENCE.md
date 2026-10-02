@@ -189,6 +189,8 @@ The weak Mosco condition follows from `K_h^B subset K`, where the physical nonne
 
 ## Actual Dirichlet energy and minimizers
 
+The final physical existence/convergence constructor currently specializes to the Dirichlet gradient form `a(u,v)=sum_i <D_i u,D_i v>_L2`. Issue #97 also requests general symmetric continuous coercive bilinear energies. The generic quadratic minimizing-sequence helper supports such energies, but the final physical Bernstein convergence theorem has not yet been generalized to that full class. Generic existence alone does not close that requirement.
+
 On `|x_i| <= R`, the test `x_i phi` in the genuine weak-derivative identity gives `||phi||_L2^2 = -2 <D_i phi, x_i phi>_L2`. Cauchy–Schwarz and bounded multiplication prove `||phi||_L2 <= 2R ||D_i phi||_L2`; actual H01 smooth closure gives the same inequality for every H01 member. Thus with `C=4R^2+1`, `||u||_H1^2 <= C a(u,u)`. An actual compact finite mesh provides a coordinate slab without a separately supplied boundedness oracle. The form `a` is constructed from the actual L2 weak-gradient components as a continuous symmetric bilinear map.
 
 For `J(u)=a(u,u)/2-F(u)`, the exact energy difference is `J(v)-J(u)=a(v-u,v-u)/2+a(u,v-u)-F(v-u)`. This proves VI implies minimum. Conversely, feasible points `u+t(v-u)` for small positive `t` rule out a strictly negative first variation and prove minimum implies VI on every convex feasible set. Coercivity proves uniqueness.
@@ -221,7 +223,8 @@ For each fixed smooth compact interior test input, its compactly supported secon
 
 1. Construct a concrete conventional conforming mesh family satisfying the stated geometric inputs and identify the intrinsic piecewise-polynomial coefficient cone with the manuscript's assembled DOF description. The affine coordinates and geometric inscribed-ball-to-coordinate shape estimate are proved; a coordinate-norm oracle is no longer required.
 2. The distinct sharp-rate branch: local-size risky sets, one-ring grading, uniform broken regularity, tube measure, coefficient clipping and physical-boundary compatibility. General recovered zero-trace H01 membership without interior support is not asserted.
-3. Independent qualified human faithfulness review. Kernel checking alone does not provide it.
+3. Generalize the final physical Bernstein existence/convergence constructor from the Dirichlet gradient form to every symmetric continuous coercive bilinear energy requested by #97.
+4. Independent qualified human faithfulness review. Kernel checking alone does not provide it.
 
 ## Reproduction
 
@@ -230,10 +233,13 @@ From `math/bernstein_obstacle/lean`, using the pinned toolchain:
 ```text
 lake build BernsteinObstacle.PhysicalBernsteinExistence
 lake build BernsteinObstacle.SamplingQuadraticGuard
-lake env lean PhysicalBernsteinExistenceAudit.lean
+lake env lean PhysicalBernsteinExistenceAudit.lean > physical-existence-axioms.log
+python3 ../verification/verify_lean_axioms.py PhysicalBernsteinExistenceAudit.lean physical-existence-axioms.log --expected-count 361
 ```
 
 The audit prints every new theorem's axioms. Only `propext`, `Classical.choice`, and `Quot.sound` are permitted here; neither `sorryAx` nor project-specific axioms are acceptable. A saved transcript documents an actual run, not the unformalized arguments above.
+
+The focused `bernstein-physical-existence-audit.yml` workflow builds the final existence leaf and sampling guard, runs all 361 audit requests, and checks the closed whitelist with `verify_lean_axioms.py`. The verifier also rejects missing, extra or duplicate reports, malformed output and diagnostics; the Lean process must separately exit successfully. Complete build, axiom, verifier and version logs are uploaded even after failure. An upstream fork-PR run requiring maintainer approval is not a successful check; author-local and author-fork runs do not establish independent qualified human review.
 
 The initial focused run on 2026-10-02 Minsk time audited the first 27 new theorems with exit 0 and no axioms outside that whitelist; its retained transcript is [PHYSICAL_RECOVERY_FOCUSED_AUDIT_2026-10-02.txt](audit_packets/PHYSICAL_RECOVERY_FOCUSED_AUDIT_2026-10-02.txt). The full upstream library was not rerun by that focused check.
 

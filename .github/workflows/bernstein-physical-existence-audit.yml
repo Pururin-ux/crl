@@ -1,0 +1,88 @@
+name: Bernstein physical existence audit
+
+on:
+  push:
+    branches:
+      - codex/bernstein-physical-estimates
+    paths:
+      - 'math/bernstein_obstacle/lean/**'
+      - 'math/bernstein_obstacle/verification/**'
+      - '.github/workflows/bernstein-physical-existence-audit.yml'
+  pull_request:
+    paths:
+      - 'math/bernstein_obstacle/lean/**'
+      - 'math/bernstein_obstacle/verification/**'
+      - '.github/workflows/bernstein-physical-existence-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bernstein-physical-existence-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  physical-existence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: math/bernstein_obstacle/lean
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Test strict axiom verifier
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s ../verification -p test_verify_lean_axioms.py 2>&1 | tee physical-verifier-tests.log
+
+      - name: Install pinned Lean
+        run: |
+          set -euo pipefail
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Download pinned mathlib cache
+        run: |
+          set -euo pipefail
+          lake exe cache get 2>&1 | tee physical-cache.log
+
+      - name: Record exact source and dependency versions
+        run: |
+          set -euo pipefail
+          {
+            git rev-parse HEAD
+            cat lean-toolchain
+            lake env lean --version
+            git -C .lake/packages/mathlib rev-parse HEAD
+            sha256sum lakefile.toml lake-manifest.json PhysicalBernsteinExistenceAudit.lean
+          } | tee physical-versions.log
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 4608056c77c52468b80773e8dcd585ef821c7c5e
+
+      - name: Build final existence and sampling-guard leaves
+        run: |
+          set -euo pipefail
+          lake build BernsteinObstacle.PhysicalBernsteinExistence BernsteinObstacle.SamplingQuadraticGuard 2>&1 | tee physical-existence-build.log
+
+      - name: Audit all added declarations and enforce whitelist
+        run: |
+          set -euo pipefail
+          lake env lean PhysicalBernsteinExistenceAudit.lean 2>&1 | tee physical-existence-axioms.log
+          python3 ../verification/verify_lean_axioms.py PhysicalBernsteinExistenceAudit.lean physical-existence-axioms.log --expected-count 361 2>&1 | tee physical-existence-verification.log
+
+      - name: Preserve complete verification logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bernstein-physical-existence-audit
+          path: math/bernstein_obstacle/lean/physical-*.log
+          if-no-files-found: warn

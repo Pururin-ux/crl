@@ -219,7 +219,7 @@ J(u) <= J((u+z)/2) = (J(u)+J(z))/2 - B(u-z,u-z)/8,
 
 This proves uniqueness and the norm-error estimate, without assuming a first-variation or an error-bound oracle. For inner cones `K_m subset K`, discrete minima `u_m` and a feasible recovery `v_m -> u`, minimality gives `J(u_m) <= J(v_m)`. Hence `||u_m-u||^2 <= 4 C (J(v_m)-J(u)) -> 0` by energy continuity. The factor four is a safe qualitative constant, not a sharp rate.
 
-The new physical constructor instantiates the generic minimizing-sequence theorem with the actual closed, convex nonnegative H01 cone and actual closed, convex Bernstein cones; it supplies the continuous and discrete unique minima internally. The proved physical Mosco theorem supplies `v_m`. This establishes strong full-H01 and energy convergence for the general energy class, on the same explicit geometric family. Two kernel-checked identities show the general physical energy/minimizer predicates specialize exactly to the earlier Dirichlet definitions. Concrete family construction, assembled-DOF identification, moving-obstacle extensions and sharp clipping rates are not claimed here.
+The new physical constructor instantiates the generic minimizing-sequence theorem with the actual closed, convex nonnegative H01 cone and actual closed, convex Bernstein cones; it supplies the continuous and discrete unique minima internally. The proved physical Mosco theorem supplies `v_m`. This establishes strong full-H01 and energy convergence for the general energy class, on the same explicit geometric family. Two kernel-checked identities show the general physical energy/minimizer predicates specialize exactly to the earlier Dirichlet definitions. The separate boundary/assembly module described below supplies a finite forward DOF map. Concrete family construction, full assembled-DOF equivalence, moving-obstacle extensions and sharp clipping rates are not claimed here.
 
 ## Actual Sobolev Hilbert realization and smooth recovery
 
@@ -233,10 +233,45 @@ The nonnegative cone is the preimage of the actual L2 nonnegative cone under the
 
 For each fixed smooth compact interior test input, its compactly supported second derivative supplies a finite global Lipschitz bound for its first derivative. The global errors converge in the actual H1 product topology; the support margin gives eventual H01 membership. The supported recovery is zero before that margin is met and actual Bernstein recovery afterwards. Full positive density and the extracted diagonal complete physical Mosco convergence for a supplied changing family, including the inscribed-ball shape specialization. Actual Poincare, energy/coercivity, continuous/discrete existence and minimizer/energy convergence are proved. Conventional family construction, assembled-DOF identification and the sharp-rate branch remain separate.
 
+## Boundary-touching H01 functions and finite shared coefficients
+
+`PhysicalBoundaryCutoff.lean` constructs the smooth scalar cutoff
+`Phi_delta(t) = physicalPositiveRegularizer delta (t-delta)`. It vanishes for
+`t <= delta`, has a derivative bound independent of positive `delta`, and equals
+`t-delta` for `t >= 2 delta`. For continuous `f` which vanishes outside an open
+domain, its cutoff's topological support lies in the closed positive level set
+`{delta <= f}` and hence strictly inside the domain.
+
+`PhysicalBoundaryH01.lean` proves that every globally compactly supported
+Lipschitz function zero outside the open domain belongs to its actual H01
+closure. For nonnegative inputs, positive-level cutoffs have interior support
+and belong to H01 by the existing mollification theorem. Rademacher
+differentiability and the classical C1 chain rule identify their actual
+gradients almost everywhere, without assuming H01 membership of the original
+input. At a zero of a globally nonnegative function, the classical derivative
+is zero by local minimality. Elsewhere the cutoff derivative is eventually one.
+Uniform bounds and dominated L2 convergence give strong actual H1 convergence;
+closedness of H01 proves the conclusion. The signed case uses positive and
+negative parts and the uniqueness of actual weak derivatives, not an assumed
+full-H1 truncation contraction. The physical mesh recovery consequently belongs
+to H01 on the mesh interior even when its support touches the boundary.
+
+`PhysicalNodeAssembly.lean` supplies a concrete finite instance of the upstream
+`BernsteinAssembly` interface: local Bernstein lattice locations are shared
+coefficient labels, with boundary labels on the physical frontier. They are
+not polynomial evaluation values. An arbitrary shared coefficient vector is
+extended solely as sampler data; its recovered function equals the intended
+local Bernstein polynomial on every closed cell. Zero boundary coefficients
+give actual H01 membership, and an assembled feasible vector maps into the
+intrinsic physical nonnegative-coefficient H01 cone. This is a forward bridge.
+Surjectivity from arbitrary intrinsic a.e. cone representatives, injective
+coefficient-space equivalence and a conventional changing mesh family are not
+proved by this module.
+
 ## Remaining formal obligations
 
-1. Construct a concrete conventional conforming mesh family satisfying the stated geometric inputs and identify the intrinsic piecewise-polynomial coefficient cone with the manuscript's assembled DOF description. The affine coordinates and geometric inscribed-ball-to-coordinate shape estimate are proved; a coordinate-norm oracle is no longer required.
-2. The distinct sharp-rate branch: local-size risky sets, one-ring grading, uniform broken regularity, tube measure, coefficient clipping and physical-boundary compatibility. General recovered zero-trace H01 membership without interior support is not asserted.
+1. Construct a concrete conventional conforming mesh family satisfying the stated geometric inputs and complete the equivalence between the intrinsic piecewise-polynomial coefficient cone and the assembled DOF description. The finite shared physical labels and forward H01/cone map are proved; the reverse and injectivity identifications remain. The affine coordinates and geometric inscribed-ball-to-coordinate shape estimate are proved; a coordinate-norm oracle is no longer required.
+2. The distinct sharp-rate branch: local-size risky sets, one-ring grading, uniform broken regularity, tube measure, coefficient clipping and physical-boundary compatibility. Boundary-touching compact Lipschitz zero extensions now have proved H01 membership; no high-order clipping estimate follows from it.
 3. Independent qualified human faithfulness review. Kernel checking alone does not provide it.
 
 ## Reproduction
@@ -245,14 +280,15 @@ From `math/bernstein_obstacle/lean`, using the pinned toolchain:
 
 ```text
 lake build BernsteinObstacle.PhysicalQuadraticConvergence
+lake build BernsteinObstacle.PhysicalNodeAssembly
 lake build BernsteinObstacle.SamplingQuadraticGuard
-lake env lean PhysicalQuadraticAudit.lean > physical-existence-axioms.log
-python3 ../verification/verify_lean_axioms.py PhysicalQuadraticAudit.lean physical-existence-axioms.log --expected-count 374
+lake env lean PhysicalNodeAssemblyAudit.lean > physical-existence-axioms.log
+python3 ../verification/verify_lean_axioms.py PhysicalNodeAssemblyAudit.lean physical-existence-axioms.log --expected-count 405
 ```
 
 The audit prints every new theorem's axioms. Only `propext`, `Classical.choice`, and `Quot.sound` are permitted here; neither `sorryAx` nor project-specific axioms are acceptable. A saved transcript documents an actual run, not the unformalized arguments above.
 
-The focused `bernstein-physical-existence-audit.yml` workflow builds the final general-energy leaf and sampling guard, runs all 374 audit requests, and checks the closed whitelist with `verify_lean_axioms.py`. The verifier also rejects missing, extra or duplicate reports, malformed output and diagnostics; the Lean process must separately exit successfully. Complete build, axiom, verifier and version logs are uploaded even after failure. An upstream fork-PR run requiring maintainer approval is not a successful check; author-local and author-fork runs do not establish independent qualified human review.
+The focused `bernstein-physical-existence-audit.yml` workflow builds the final general-energy leaf, boundary assembly and sampling guard, runs all 405 audit requests, and checks the closed whitelist with `verify_lean_axioms.py`. The verifier also rejects missing, extra or duplicate reports, malformed output and diagnostics; the Lean process must separately exit successfully. Complete build, axiom, verifier and version logs are uploaded even after failure. An upstream fork-PR run requiring maintainer approval is not a successful check; author-local and author-fork runs do not establish independent qualified human review.
 
 The first clean Linux runner check of commit `1225a50a3e1d7239998a831ad8297f75374f137e` [passed on the author's fork](https://github.com/Pururin-ux/crl/actions/runs/36967736365): both earlier physical leaves built (3651 jobs), six verifier tests passed, and all 361 earlier declarations passed the strict whitelist. It used the pinned Lean and mathlib versions, and retained complete logs as artifact11210632151 with archive digest `sha256:4e44819ce9a13ead6d6c076b85de2d894429dda712a8096b1483682fa36cbc7f`. That run predates the 13 general-energy declarations and is not their CI verification.
 
@@ -277,3 +313,5 @@ The Dirichlet-focused run compiled `PhysicalEnergyExistence`, `PhysicalBernstein
 The Bernstein-existence focused run compiled `PhysicalBernsteinExistence` and dependencies (3650 jobs, exit 0), then audited all 361 added declarations with exit 0 and no axioms outside the whitelist. Original console bytes, timestamp and SHA256 hashes of the four new source modules are retained in [PHYSICAL_BERNSTEIN_EXISTENCE_FOCUSED_AUDIT_2026-10-02.txt](audit_packets/PHYSICAL_BERNSTEIN_EXISTENCE_FOCUSED_AUDIT_2026-10-02.txt). It verifies actual finite nonnegative L2 cone closedness, cell-indicator continuity, the polynomial coefficient-map bridge, intrinsic discrete closedness, continuous/discrete unique minima, and strong H01/energy convergence without supplied minimizers. Conventional mesh-family/assembled-DOF identification, the sharp clipping rate, independent human review, sponsor funding/payment and the full upstream library remain outside this check. Prior packets remain unchanged and record their earlier scopes.
 
 The general-energy focused run compiled `PhysicalQuadraticConvergence` and dependencies (3651 jobs, exit0), then checked all374 added declarations with successful Lean exit and strict request/report matching. Only `propext`, `Classical.choice` and `Quot.sound` occur. Original console bytes, timestamp, source/driver hashes and pins are retained in [PHYSICAL_QUADRATIC_FOCUSED_AUDIT_2026-10-02.txt](audit_packets/PHYSICAL_QUADRATIC_FOCUSED_AUDIT_2026-10-02.txt). It verifies the general symmetric coercive homogeneous-obstacle energy class, internally constructed unique minima, actual physical recovery and strong H01/energy convergence; it does not prove a concrete conventional family/assembled-DOF identification, moving-obstacle extensions, sharp rate, independent qualified human review, sponsor funding or payment.
+
+The boundary/shared-assembly focused run built the general-energy, boundary-assembly and sampling-guard leaves together (3660 jobs, exit0), then checked all405 declarations with successful Lean exit and strict request/report matching. Only the same three allowed axioms occur. Original console bytes, timestamp and source/driver hashes are retained in [PHYSICAL_BOUNDARY_ASSEMBLY_FOCUSED_AUDIT_2026-10-02.txt](audit_packets/PHYSICAL_BOUNDARY_ASSEMBLY_FOCUSED_AUDIT_2026-10-02.txt). It proves actual H01 membership for boundary-touching compact Lipschitz zero extensions and the finite forward assembly/cone bridge described above. Reverse/injective DOF identification, a conventional changing mesh family, moving obstacles, sharp rates, independent human review, funding and payment remain unverified.
